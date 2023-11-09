@@ -21,3 +21,20 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ]]
+
+cmake_minimum_required(VERSION 3.27)
+
+set(Project ZLibCPP)
+set(Source ZLibCPP.cpp)
+set(Header ZLibCPP.hpp ZLibCPP_helper.hpp)
+
+project(${Project} LANGUAGES CXX)
+
+add_library(${Project} ${Source} ${Header})
+
+set_target_properties(${Project} PROPERTIES CXX_STANDARD 23 CXX_STANDARD_REQUIRED on)
+
+target_include_directories(${Project} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+
+find_package(ZLIB REQUIRED)
+target_link_libraries(${Project} PRIVATE ZLIB::ZLIB)
