@@ -30,7 +30,7 @@ set(Header ZLibCPP.hpp ZLibCPP_helper.hpp)
 
 project(${Project} LANGUAGES CXX)
 
-add_library(${Project} ${Source} ${Header})
+add_library(${Project} SHARED ${Source} ${Header})
 
 set_target_properties(${Project} PROPERTIES CXX_STANDARD 23 CXX_STANDARD_REQUIRED on)
 
