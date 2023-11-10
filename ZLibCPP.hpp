@@ -23,14 +23,52 @@ SOFTWARE.*/
 #ifndef ZLIBCPP_HPP_
 #define ZLIBCPP_HPP_
 
+#include <span>
+#include <string>
+#include <string_view>
+#include <vector>
+
 namespace ZLibCPP {
-class ZLibCPP {
-  struct impl;
+struct impl;
+
+//! Required level of compression.
+enum compression_level {
+  no_compression = 0,
+  best_speed = 1,
+  best_compression = 9,
+  default_compression = -1
+};
+
+class deflate {
   impl *pimpl;
 
 public:
-  ZLibCPP();
-  ~ZLibCPP();
+  //! Create deflate object with compression_level
+  deflate(compression_level level = default_compression);
+  ~deflate();
+
+  //! Compress(deflate) the array os unsigned char objects returning a vector of it.
+  std::vector<unsigned char> compress(std::span<unsigned char> data) const;
+  //! Compress(deflate) the string_view and return the compressed string.
+  std::string compress(std::string_view data) const;
+};
+
+class inflate {
+  impl *pimpl;
+
+public:
+  //! Construct the inflate class.
+  inflate();
+  ~inflate();
+
+  //! Decompress(deflate) function that accept an array and the 
+  //! original uncompressed size, returning a vector of unsigned char.
+  std::vector<unsigned char> decompress(std::span<unsigned char> data,
+                                        size_t original_size) const;
+
+  //! Decompress(deflate) function that accepts a string_view and the oringal
+  //! uncompressed size, returning a uncompressed string.
+  std::string decompress(std::string_view data, size_t original_size) const;
 };
 }; // namespace ZLibCPP
 
